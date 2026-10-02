@@ -242,7 +242,7 @@ export default function Page() {
                             <h2 className="text-lg font-bold text-white">جزئیات محصول</h2>
                             <button
                                 onClick={() => setSelectedProductId(null)}
-                                className="rounded-full bg-white/20 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-white/30"
+                                className="rounded-full bg-white/20 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-white/30 cursor-pointer"
                             >
                                 ✕ بستن
                             </button>
