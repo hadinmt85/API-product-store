@@ -12,96 +12,9 @@ type Product = {
     rating: { rate: number; count: number };
 };
 
-const CATEGORIES: Record<string, string> = {
-    All: "همه",
-    electronics: "لوازم الکترونیکی",
-    jewelery: "جواهرات",
-    "men's clothing": "پوشاک مردانه",
-};
+const CATEGORIES = ["All", "electronics", "jewelery", "men's clothing"];
 
-const PRODUCT_FA: Record<number, Pick<Product, "title" | "price" | "description">> = {
-    1: {
-        price: 490000,
-        title: "کت تک مردانه پشمی کد kt 0100",
-        description:
-            "کت تک مردانه از پارچه پشمی با دوخت مرتب و یقه کلاسیک. مناسب استایل رسمی و نیمه‌رسمی و گزینه‌ای عالی برای پاییز و زمستان.",
-    },
-    2: {
-        price: 350000,
-        title: "هودی مردانه خزدار مدل تدی",
-        description:
-            "مدل جذب و اسلیم، آستین بلند رگلان با رنگ متضاد، یقه هنلی با سه دکمه، پارچه‌ای سبک و نرم که تنفس‌پذیر و راحت است. دوخت محکم با یقه گرد، مناسب استایل روزمره.",
-    },
-    3: {
-        price: 420000,
-        title: "پلیور مردانه بافت متراکم طرح‌دار",
-        description:
-            "پلیور مردانه با بافت متراکم و طرح‌دار، گرم و نرم. مناسب پاییز و زمستان، استفاده روزمره و هدیه دادن به پدر، همسر یا پسر.",
-    },
-    4: {
-        price: 560000,
-        title: "کت پاییزه مردانه جین مدل S-05",
-        description:
-            "کت جین مردانه مدل S-05 با پارچه مقاوم و دوخت محکم. مناسب فصل پاییز و بهار و قابل ست با لباس‌های روزمره. ممکن است رنگ محصول روی نمایشگر کمی متفاوت باشد؛ جدول سایز را قبل از خرید بررسی کنید.",
-    },
-    5: {
-        price: 1200000,
-        title: "گردنبند طلا 18 عیار زنانه مدل 1072 سگ",
-        description:
-            "گردنبند طلا ۱۸ عیار زنانه با طرح زیبا و ظریف. مناسب استفاده روزمره و مهمانی، و هدیه‌ای عالی برای تولد و سالگرد.",
-    },
-    6: {
-        price: 2500000,
-        title: "آویز گردنبند طلا 18 عیار زنانه طرح قلب",
-        description:
-            "آویز گردنبند طلا ۱۸ عیار با طرح قلب و ظاهری درخشان. هدیه‌ای عاشقانه برای ولنتاین، سالگرد و تولد.",
-    },
-    7: {
-        price: 1800000,
-        title: "گردنبند طلا 18 عیار زنانه با زنجیر مهره‌ای",
-        description:
-            "گردنبند طلا ۱۸ عیار با زنجیر مهره‌ای و طراحی شیک. مناسب استفاده روزمره و مجالس، و انتخابی خوب برای هدیه.",
-    },
-    8: {
-        price: 300000,
-        title: "نیم ست طلا 18 عیار زنانه",
-        description:
-            "نیم ست طلا ۱۸ عیار زنانه شامل گردنبند و گوشواره با طراحی هماهنگ. مناسب مهمانی و هدیه دادن.",
-    },
-    9: {
-        price: 2200000,
-        title: "هارد اکسترنال قابل حمل وسترن دیجیتال ۲ ترابایت مدل Elements",
-        description:
-            "هارد اکسترنال قابل حمل با رابط USB 3.0 و سازگار با USB 2.0. مناسب ذخیره و انتقال سریع فایل‌ها، با ظرفیت ۲ ترابایت.",
-    },
-    10: {
-        price: 3800000,
-        title: "حافظه SSD داخلی سن‌دیسک ۱ ترابایت مدل SSD PLUS",
-        description:
-            "حافظه SSD با رابط SATA III و سرعت خواندن تا ۵۶۰ مگابایت بر ثانیه. بوت سریع‌تر سیستم و بارگذاری سریع‌تر برنامه‌ها.",
-    },
-    11: {
-        price: 2100000,
-        title: "حافظه SSD سیلیکون پاور ۲۵۶ گیگابایت مدل A55",
-        description:
-            "حافظه SSD سایز ۲.۵ اینچ با رابط SATA III و تکنولوژی 3D NAND. ارتقای مناسب برای لپ‌تاپ و کامپیوتر رومیزی.",
-    },
-    12: {
-        price: 4200000,
-        title: "هارد اکسترنال گیمینگ وسترن دیجیتال ۴ ترابایت (سازگار با پلی‌استیشن ۴)",
-        description:
-            "هارد اکسترنال قابل حمل مخصوص گیم با ظرفیت ۴ ترابایت. نصب آسان و سازگار با کنسول پلی‌استیشن ۴.",
-    },
-};
-
-const fa = (n: number) => n.toLocaleString("fa-IR");
-
-const localize = (p: Product): Product => ({
-    ...p,
-    ...PRODUCT_FA[p.id],
-});
-
-const categoryLabel = (c: string) => CATEGORIES[c] ?? c;
+const formatPrice = (n: number) => `$${n.toFixed(2)}`;
 
 function Spinner({ size = "h-12 w-12" }: { size?: string }) {
     return (
@@ -112,7 +25,7 @@ function Spinner({ size = "h-12 w-12" }: { size?: string }) {
 function Rating({ rate, className = "" }: { rate: number; className?: string }) {
     return (
         <span className={`rounded-lg bg-amber-50 px-2 py-1 font-semibold text-amber-600 ${className}`}>
-            ⭐ {fa(rate)}
+            ⭐ {rate}
         </span>
     );
 }
@@ -131,11 +44,11 @@ export default function Page() {
         async function loadProducts() {
             try {
                 const res = await fetch("https://fakestoreapi.com/products?limit=12");
-                if (!res.ok) throw new Error("خطا در دریافت محصولات");
+                if (!res.ok) throw new Error("Failed to fetch products");
                 const data: Product[] = await res.json();
-                setProducts(data.map(localize));
+                setProducts(data);
             } catch (err) {
-                setError(err instanceof Error ? err.message : "خطای ناشناخته");
+                setError(err instanceof Error ? err.message : "Unknown error");
             } finally {
                 setLoading(false);
             }
@@ -152,12 +65,12 @@ export default function Page() {
             setProduct(null);
             try {
                 const res = await fetch(`https://fakestoreapi.com/products/${selectedId}`);
-                if (!res.ok) throw new Error("خطا در دریافت جزئیات محصول");
+                if (!res.ok) throw new Error("Failed to fetch product details");
                 const data: Product = await res.json();
-                if (!cancelled) setProduct(localize(data));
+                if (!cancelled) setProduct(data);
             } catch (err) {
                 if (!cancelled)
-                    setDetailError(err instanceof Error ? err.message : "خطای ناشناخته");
+                    setDetailError(err instanceof Error ? err.message : "Unknown error");
             } finally {
                 if (!cancelled) setDetailLoading(false);
             }
@@ -173,7 +86,7 @@ export default function Page() {
 
     if (loading)
         return (
-            <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
+            <div dir="ltr" className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
                 <Spinner />
                 <p className="text-lg font-medium text-slate-600">Loading...</p>
             </div>
@@ -181,7 +94,7 @@ export default function Page() {
 
     if (error)
         return (
-            <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+            <div dir="ltr" className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
                 <div className="rounded-2xl border border-red-200 bg-red-50 px-8 py-6 text-center text-red-700 shadow-sm">
                     <p className="mb-1 text-3xl">⚠️</p>
                     <p className="font-semibold">{error}</p>
@@ -190,28 +103,25 @@ export default function Page() {
         );
 
     return (
-        <div
-            dir="rtl"
-            className="min-h-screen bg-linear-to-br from-slate-50 via-indigo-50/40 to-slate-100"
-        >
+        <div dir="ltr" className="min-h-screen bg-linear-to-br from-slate-50 via-indigo-50/40 to-slate-100 font-sans">
             <header className="border-b border-slate-200 bg-white/80 backdrop-blur">
                 <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-3xl font-extrabold text-slate-800">
-                            فروشگاه <span className="text-indigo-600">محصولات</span>
+                            Product <span className="text-indigo-600">Store</span>
                         </h1>
                         <p className="mt-1 text-sm text-slate-500">
-                            {fa(filtered.length)} محصول یافت شد
+                            {filtered.length} products found
                         </p>
                     </div>
                     <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 sm:w-56"
+                        className="w-full cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium capitalize text-slate-700 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 sm:w-56"
                     >
-                        {Object.entries(CATEGORIES).map(([value, label]) => (
+                        {CATEGORIES.map((value) => (
                             <option key={value} value={value}>
-                                {label}
+                                {value}
                             </option>
                         ))}
                     </select>
@@ -221,13 +131,13 @@ export default function Page() {
             <main className="mx-auto max-w-6xl px-6 py-8">
                 {selectedId !== null && (
                     <section className="mb-10 overflow-hidden rounded-3xl border border-indigo-100 bg-white shadow-xl shadow-indigo-100/50">
-                        <div className="flex items-center justify-between bg-linear-to-l from-indigo-600 to-violet-600 px-6 py-4">
-                            <h2 className="text-lg font-bold text-white">جزئیات محصول</h2>
+                        <div className="flex items-center justify-between bg-linear-to-r from-indigo-600 to-violet-600 px-6 py-4">
+                            <h2 className="text-lg font-bold text-white">Product Details</h2>
                             <button
                                 onClick={() => setSelectedId(null)}
                                 className="cursor-pointer rounded-full bg-white/20 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-white/30"
                             >
-                                ✕ بستن
+                                ✕ Close
                             </button>
                         </div>
                         <div className="p-6">
@@ -252,23 +162,23 @@ export default function Page() {
                                         />
                                     </div>
                                     <div className="flex flex-1 flex-col">
-                                        <span className="mb-3 w-fit rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
-                                            {categoryLabel(product.category)}
+                                        <span className="mb-3 w-fit rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold capitalize text-indigo-600">
+                                            {product.category}
                                         </span>
                                         <h3 className="text-2xl font-bold leading-snug text-slate-800">
                                             {product.title}
                                         </h3>
                                         <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
                                             <Rating rate={product.rating.rate} />
-                                            <span>({fa(product.rating.count)} نظر)</span>
+                                            <span>({product.rating.count} reviews)</span>
                                         </div>
                                         <p className="mt-4 leading-8 text-slate-600">
                                             {product.description}
                                         </p>
                                         <div className="mt-auto pt-6">
-                                            <p className="text-sm text-slate-400">قیمت</p>
+                                            <p className="text-sm text-slate-400">Price</p>
                                             <p className="text-3xl font-extrabold text-emerald-600">
-                                                {fa(product.price)} تومان
+                                                {formatPrice(product.price)}
                                             </p>
                                         </div>
                                     </div>
@@ -280,7 +190,7 @@ export default function Page() {
 
                 {filtered.length === 0 ? (
                     <p className="py-20 text-center text-slate-500">
-                        محصولی در این دسته‌بندی وجود ندارد.
+                        No products in this category.
                     </p>
                 ) : (
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -291,15 +201,14 @@ export default function Page() {
                                     setSelectedId(p.id);
                                     window.scrollTo({ top: 0, behavior: "smooth" });
                                 }}
-                                className={`group cursor-pointer overflow-hidden rounded-2xl border bg-white shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
-                                    selectedId === p.id
+                                className={`group cursor-pointer overflow-hidden rounded-2xl border bg-white shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl ${selectedId === p.id
                                         ? "border-indigo-500 ring-2 ring-indigo-200"
                                         : "border-slate-200"
-                                }`}
+                                    }`}
                             >
                                 <div className="relative flex h-48 items-center justify-center overflow-hidden bg-slate-50 p-4">
-                                    <span className="absolute right-3 top-3 z-10 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-600 shadow-sm">
-                                        {categoryLabel(p.category)}
+                                    <span className="absolute left-3 top-3 z-10 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold capitalize text-indigo-600 shadow-sm">
+                                        {p.category}
                                     </span>
                                     <img
                                         src={p.image}
@@ -313,7 +222,7 @@ export default function Page() {
                                     </h2>
                                     <div className="mt-3 flex items-center justify-between">
                                         <p className="font-extrabold text-emerald-600">
-                                            {fa(p.price)} تومان
+                                            {formatPrice(p.price)}
                                         </p>
                                         <Rating rate={p.rating.rate} className="text-xs" />
                                     </div>

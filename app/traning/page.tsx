@@ -1,51 +1,74 @@
-'use client'
-import { useEffect, useState } from "react"
+'use client';
+import { useEffect, useState } from "react";
 
-const Page = () => {
-    const [temperature, setTemperature] = useState<number | null>(null);
-    const [windSpeed, setWindSpeed] = useState<number | null>(null);
+interface Todo {
+    id: number;
+    title: string;
+    completed: boolean;
+    created_at: number;
+    updated_at: number;
+}
+
+function Page() {
+    const [todos, setTodos] = useState<Todo[]>([]);
+    const [inputData, setInputData] = useState("");
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [lastUpdated, setLastUpdated] = useState("");
 
-    const loadWeather = () => {
-        setLoading(true);
-        fetch("https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=51.39&current=temperature_2m,wind_speed_10m").then(
-            async (res) => {
-                if (!res.ok) {
-                    throw new Error("Request failed");
-                }
-                const body = await res.json();
-                setTemperature(body.current.temperature_2m);
-                setWindSpeed(body.current.wind_speed_10m);
-                setLastUpdated(new Date().toLocaleTimeString("en-GB"));
+    const loadtodo = () => {
+        fetch("https://practice.amirm.me/todos").then(
+            async (data) => {
+                const body = await data.json();
+                setTodos(body.data);
                 setLoading(false);
-                setError(false);
             }
-        ).catch(() => {
-            setError(true);
-            setLoading(false);
-        })
+        )
     }
 
     useEffect(() => {
-        loadWeather();
+        loadtodo();
     }, []);
 
+    const handleClick = () => {
+        const data = {
+            title: inputData,
+            completed: false
+        };
+
+        fetch("https://practice.amirm.me/todos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        }).then(() => {
+            setInputData("");
+            loadtodo();
+        }).catch((err) => console.error(err));
+    };
+
     return (
-        <div className="flex flex-col items-center justify-center gap-5 mx-auto my-auto border-2 border-blue-500 p-10">
-            {loading && <h2 className="mx-auto">...Loading</h2>}
-            {error && !loading && <p className="mx-auto text-red-600 font-bold">Failed to load weather</p>}
-            {!loading && !error && (
-                <div>
-                    <p>Temperature: {temperature} °C</p>
-                    <p>Wind speed: {windSpeed} km/h</p>
+        <div dir="ltr" className="mx-auto my-auto">
+            <div>
+                <input
+                    className="border-2 p-2"
+                    type="text"
+                    value={inputData}
+                    onChange={(e) => setInputData(e.target.value)}
+                    placeholder="Enter Text"
+                />
+                <button className="cursor-pointer" onClick={handleClick}>Clcik</button>
+            </div>
+            {loading && <p>Loading...</p>}
+            {todos.map((todo) => (
+                <div
+                    className="grid grid-cols-3 items-center gap-4 border-2 p-3"
+                    key={todo.id}
+                >
+                    <h3>{todo.title}</h3>
+                    <span>{todo.completed ? "True" : "Flase"}</span>
+                    <span>
+                        {todo.created_at} - {todo.updated_at}
+                    </span>
                 </div>
-            )}
-            <p>Last Updated: {lastUpdated}</p>
-            <button className="border-2 border-blue-900 rounded-2xl p-1 bg-blue-500 text-white cursor-pointer" onClick={loadWeather} disabled={loading}>
-                Refresh Weather
-            </button>
+            ))}
         </div>
     )
 }
