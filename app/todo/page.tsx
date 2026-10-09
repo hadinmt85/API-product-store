@@ -68,29 +68,18 @@ function Page() {
                     Add
                 </button>
             </div>
-
             {loading && <p>Loading...</p>}
-
             {todos.map((todo) => (
-                <div
-                    className="grid grid-cols-5 items-center gap-4 border-2 p-3"
-                    key={todo.id}
-                >
+                <div className="grid grid-cols-5 items-center gap-4 border-2 p-3" key={todo.id}>
                     <h3>{todo.title}</h3>
                     <span>{todo.completed ? "True" : "False"}</span>
                     <span>
                         {todo.created_at} - {todo.updated_at}
                     </span>
-                    <button
-                        className="cursor-pointer border-2 p-1"
-                        onClick={() => handleUpdate(todo.id)}
-                    >
+                    <button className="cursor-pointer border-2 p-1" onClick={() => handleUpdate(todo.id)}>
                         Update
                     </button>
-                    <button
-                        className="cursor-pointer border-2 p-1"
-                        onClick={() => handleDelete(todo.id)}
-                    >
+                    <button className="cursor-pointer border-2 p-1" onClick={() => handleDelete(todo.id)}>
                         Delete
                     </button>
                 </div>
