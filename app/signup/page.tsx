@@ -17,40 +17,44 @@ const Signup = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-blue-700 p-4">
-            <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10 flex flex-col gap-6">
+        <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900 bg-[url('/login-bg.jpg')] bg-cover bg-center p-4">
+            <div className="absolute inset-0 bg-slate-900/50" />
+            <div className="relative w-full max-w-md rounded-3xl border border-white/30 bg-white/10 p-10 shadow-2xl backdrop-blur-xl flex flex-col gap-6">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
-                    <p className="text-gray-500 mt-2">
-                        Have an account? {" "}
-                        <Link href="/signin" className="text-indigo-600 font-medium hover:underline">
+                    <h1 className="text-3xl font-bold text-white">Create Account</h1>
+                    <p className="mt-2 text-white/80">
+                        Have an account?{" "}
+                        <Link href="/signin" className="font-medium text-orange-300 hover:underline">
                             Sign in
                         </Link>
                     </p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-700">Username</label>
+                    <label htmlFor="username" className="text-sm font-medium text-white">Username</label>
                     <input
+                        id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         type="text"
                         placeholder="Enter username"
-                        className="w-full h-12 px-4 border border-gray-300 rounded-xl outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                        className="w-full h-12 px-4 rounded-xl border border-white/30 bg-white/10 text-white placeholder:text-white/60 outline-none transition focus:border-white/70 focus:ring-4 focus:ring-white/20"
                     />
                 </div>
                 <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-700">Password</label>
+                    <label htmlFor="password" className="text-sm font-medium text-white">Password</label>
                     <input
+                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         type="password"
                         placeholder="Enter password"
-                        className="w-full h-12 px-4 border border-gray-300 rounded-xl outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                        className="w-full h-12 px-4 rounded-xl border border-white/30 bg-white/10 text-white placeholder:text-white/60 outline-none transition focus:border-white/70 focus:ring-4 focus:ring-white/20"
                     />
                 </div>
                 <button
+                    type="button"
                     onClick={handleSubmit}
-                    className="w-full h-12 bg-indigo-600 text-white text-lg font-semibold rounded-xl cursor-pointer transition hover:bg-indigo-700 active:scale-95"
+                    className="w-full h-12 rounded-xl bg-orange-500 text-lg font-semibold text-slate-900 cursor-pointer transition hover:bg-orange-400 active:scale-95"
                 >
                     Sign Up
                 </button>
