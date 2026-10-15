@@ -12,7 +12,12 @@ type Product = {
     rating: { rate: number; count: number };
 };
 
-const CATEGORIES = ["All", "electronics", "jewelery", "men's clothing"];
+const CATEGORIES = ["All", "electronics", "jewelery", "men's clothing", "women's clothing"];
+
+const MAX_PER_CATEGORY: Record<string, number> = {
+    electronics: 4,
+    "women's clothing": 4,
+};
 
 const formatPrice = (n: number) => `$${n.toFixed(2)}`;
 
@@ -43,10 +48,17 @@ export default function Page() {
     useEffect(() => {
         async function loadProducts() {
             try {
-                const res = await fetch("https://fakestoreapi.com/products?limit=12");
+                const res = await fetch("https://fakestoreapi.com/products?limit=20");
                 if (!res.ok) throw new Error("Failed to fetch products");
                 const data: Product[] = await res.json();
-                setProducts(data);
+                const counts: Record<string, number> = {};
+                const limited = data.filter((p) => {
+                    const max = MAX_PER_CATEGORY[p.category];
+                    if (max === undefined) return true;
+                    counts[p.category] = (counts[p.category] ?? 0) + 1;
+                    return counts[p.category] <= max;
+                });
+                setProducts(limited);
             } catch (err) {
                 setError(err instanceof Error ? err.message : "Unknown error");
             } finally {
