@@ -1,10 +1,13 @@
 "use client"
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Signup = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    const router = useRouter()
 
     const handleSubmit = async () => {
         const res = await fetch("https://practice.amirm.me/auth/register", {
@@ -12,8 +15,13 @@ const Signup = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
         })
-        const result = await res.json()
-        console.log(result)
+        const json = await res.json()
+        if (!res.ok) {
+            setError(json.error)
+            return
+        }
+
+        router.push("/signin")
     }
 
     return (
@@ -51,6 +59,7 @@ const Signup = () => {
                         className="w-full h-12 px-4 rounded-xl border border-white/30 bg-white/10 text-white placeholder:text-white/60 outline-none transition focus:border-white/70 focus:ring-4 focus:ring-white/20"
                     />
                 </div>
+                {error && <p className="text-[13px] text-red-300">{error}</p>}
                 <button
                     type="button"
                     onClick={handleSubmit}
