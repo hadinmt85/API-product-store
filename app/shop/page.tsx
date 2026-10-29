@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const API = "https://practice.amirm.me";
 
@@ -132,7 +133,7 @@ export default function ShopPage() {
                                 onClick={resetFilters}
                                 className="cursor-pointer text-xs font-medium text-red-500 transition hover:text-red-700"
                             >
-                                پاک کردن
+                                پاک کردن فیلترها
                             </button>
                         )}
                     </div>
@@ -224,8 +225,9 @@ export default function ShopPage() {
                     )}
                     <div className={`grid grid-cols-2 gap-4 md:grid-cols-3 ${loading && products.length > 0 ? "opacity-60" : ""}`}>
                         {products.map((p) => (
-                            <div
+                            <Link
                                 key={p.id}
+                                href={`/shop/${p.id}`}
                                 className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-lg"
                             >
                                 <div className="relative overflow-hidden bg-slate-100">
@@ -260,7 +262,7 @@ export default function ShopPage() {
                                         </span>
                                     </p>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                     {products.length > 0 && (
