@@ -119,6 +119,12 @@ export default function ShopPage() {
                         placeholder="جستجوی محصول..."
                         className={`${fieldClass} sm:max-w-xs`}
                     />
+                    <Link
+                        href="/cart"
+                        className="mr-auto rounded-lg border border-white/30 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+                    >
+                        سبد خرید
+                    </Link>
                 </div>
             </header>
 
